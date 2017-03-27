@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <title>我的angular</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+    <link href="script/plugs/layui/css/layui.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="theme/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="theme/css/console.css" rel="stylesheet" type="text/css" />
+    <link href="theme/css/animate.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin" id="layui_layout">
+        <!-- 顶部区域 -->
+        <div class="layui-header header header-demo">
+            <div class="layui-main">
+                <!-- logo区域 -->
+                <div class="admin-logo-box">
+                    <a class="logo" href='javascript:;'>YourSword</a>
+                    <div class="larry-side-menu">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <!-- 顶级菜单区域 -->
+                <div class="layui-larry-menu">
+                    <ul class="layui-nav clearfix">
+                        <li class="layui-nav-item {{x.active ? 'layui-this' : ''}}" ng-repeat="x in app.menu">
+                            <a data-menu-id="{{x.id}}" ng-href="{{x.href}}" ng-click="topMenuOnClick(this)" data-index="{{x.index}}"><i class="{{x.icon}}"></i><span ng-bind="x.title"></span></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 右侧导航 -->
+                <ul class="layui-nav larry-header-item">
+                    
+                    <li class="layui-nav-item">
+                        <a ng-click="logout()" href="javascript:void(0);"> <i class="fa fa-sign-out"></i> 退出</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 左侧侧边导航开始 -->
+        <div class="layui-side layui-side-bg layui-larry-side" style="display:none;{{app.menuLeft?'display:block':''}}" id="larry-side"
+            ng-if="app.menuLeft">
+            <div class="layui-side-scroll" id="larry-nav-side" lay-filter="side">
+                <div class="user-photo">
+                    <a class="img" title="我的头像">
+                        <img src="theme/img/user.jpg" class="userimg1"></a>
+                    <p>你好！admin, 欢迎登录</p>
+                </div>
+                <!-- 左侧菜单 -->
+                <ul class="layui-nav layui-nav-tree" ng-show='pmenu.active' ng-repeat="pmenu in app.menu" data-index="{{pmenu.index}}">
+                    <!-- 有二级菜单时 -->
+                    <li class="layui-nav-item {{menu.active?menu.sub?'layui-nav-itemed':'layui-this':''}}" ng-if='pmenu.sub' ng-repeat="menu in pmenu.sub">
+                        <!-- 无第三级菜单时 -->
+                        <a href="javascript:;" data-menu-id="{{pmenu.id}}" ng-if="!menu.sub">
+                            <i class="iconfont icon-home1" data-icon='icon-home1'></i>
+                            <span>单页</span>
+                        </a>
+                        <!-- 有第三级菜单时 -->
+                        <a data-menu-id="{{pmenu.id}}-{{menu.id}}" href="javascript:;" ng-if="menu.sub">
+                            <i class="iconfont icon-jiaoseguanli"></i>
+                            <span>第二页</span>
+                            <em class="layui-nav-more"></em>
+                        </a>
+                        <dl class="layui-nav-child" ng-if="menu.sub">
+                            <dd ng-repeat="m in menu.sub" class="{{m.active?'layui-this':''}}">
+                                <a data-menu-id="{{pmenu.id}}-{{menu.id}}-{{m.id}}" href="javascript:;" data-url="personInfo.html">
+                                    <i class="fa fa-user"></i>
+                                    <span>我的资料</span>
+                                </a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 左侧侧边导航结束 -->
+
+        <!-- 右侧主体内容 -->
+        <div class="layui-body" id="larry-body" style="bottom:0;border-left:solid 2px #1AA094;left:0;{{app.menuLeft?'left:200px':'left:0;'}}">
+            <div class="layui-tab layui-tab-card larry-tab-box admin-container" id="larry-tab" lay-filter="demo" lay-allowclose="true">
+                <!--                    
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" id="admin-home"><i class="iconfont icon-diannao1"></i><em>后台首页</em></li>
+                    </ul>
+                    -->
+                <div class="layui-tab-content admin-conent">
+                    <div class="layui-tab-item layui-show admin-page" data-ng-view=''></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部区域 开始 -->
+        <div class="layui-footer layui-larry-foot" id="larry-footer" style="left:0; {{app.menuLeft?'left:200px;':'left:0;'}}">
+            <div class="layui-mian" ng-bind=""></div>
+        </div>
+    </div>
+
+    <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+    <script src="script/bootstrap.js"></script>
+</body>
+
+</html>
